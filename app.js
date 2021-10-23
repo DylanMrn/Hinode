@@ -15,7 +15,7 @@ MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
   }
 });*/
 
-mongoose.connect('mongodb://localhost:27017/simple',
+mongoose.connect('mongodb://localhost:27017/test',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -25,15 +25,11 @@ mongoose.connect('mongodb://localhost:27017/simple',
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
     next();
 });
 
-app.get('/', (req, res, next) => {
-    
-});
-
-const users = new Users({
+/*const users = new Users({
     name: 'Tituouant',
         pseudo: 'Titi',
         password: 'password',
@@ -43,24 +39,26 @@ const users = new Users({
 users.save()
 .then(doc => console.log(doc))
 .catch(err => console.log('ERROR 💥:', err));
+*/
 
-
-/*app.post('/api/stuff', (req, res, next) => {
-    delete req.body._id;
+app.post('/api/newuser', (req, res, next) => {
+    //delete req.body._id;
     const users = new Users({
       //...req.body
-        name: 'Tituouant',
-        pseudo: 'Titi',
-        password: 'password',
+        name: 'dydy',
+        email: 'dydy@toto.fr',
+        password: 'ppasxx',
         userId: '1',
         role: '1',
     });
     users.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-});*/
+    .then(doc => console.log(doc))
+    .catch(err => console.log('ERROR 💥:', err));
+      /*.then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+      .catch(error => res.status(400).json({ error }));*/
+});
 
-app.use('/api/stuff', (req, res, next) => {
+app.get('/api/stuff', (req, res, next) => {
     Users.find()
       .then(users => res.status(200).json(users))
       .catch(error => res.status(400).json({ error }));
