@@ -1,10 +1,16 @@
+// Load HTTP module
+const http = require("http");
+
 const express = require('express')
-const app = express()
+const app = express();
+const port = 3000;
 const mongoose = require('mongoose');
 
-app.listen(5000, () => {
-    console.log('server is listening on port 5000')
-})
+app.listen(port, function() {
+  console.log(`Example app listening on port ${port}!`)
+});
+
+app.use('/media', express.static('public'));
 
 const Users = require('./models/Users');
 
@@ -42,7 +48,7 @@ users.save()
 */
 
 app.post('/api/newuser', (req, res, next) => {
-    //delete req.body._id;
+    delete req.body._id;
     const users = new Users({
       //...req.body
         name: 'dydy',
