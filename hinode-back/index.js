@@ -1,25 +1,13 @@
-// Load HTTP module
-const http = require("http");
-
 const express = require('express')
 const app = express();
 const port = 3000;
 const mongoose = require('mongoose');
-
-app.listen(port, function() {
-  console.log(`Example app listening on port ${port}!`)
-});
+const bodyParser = require('body-parser');
 
 app.use('/media', express.static('public'));
+app.use(bodyParser.json());
 
 const Users = require('./models/Users');
-
-/*var MongoClient = require('mongodb').MongoClient;
-MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
-  if (err) {
-    throw err;
-  }
-});*/
 
 mongoose.connect('mongodb://localhost:27017/test',
   { useNewUrlParser: true,
@@ -48,7 +36,7 @@ users.save()
 */
 
 app.post('/api/newuser', (req, res, next) => {
-    delete req.body._id;
+    //delete req.body._id;
     const users = new Users({
       //...req.body
         name: 'dydy',
@@ -64,8 +52,17 @@ app.post('/api/newuser', (req, res, next) => {
       .catch(error => res.status(400).json({ error }));*/
 });
 
-app.get('/api/stuff', (req, res, next) => {
-    Users.find()
-      .then(users => res.status(200).json(users))
-      .catch(error => res.status(400).json({ error }));
-  });
+app.get('/api/users', (req, res, next) => {
+  Users.find()
+    .then(users => res.status(200).json(users))
+    .catch(error => res.status(400).json({ error }));
+});
+
+//Import routes
+let apiRoutes = require("./routes")
+//Use API routes in the App
+app.use('/api', apiRoutes)
+
+app.listen(port, function() {
+  console.log(`Listening on port ${port}!`)
+});
