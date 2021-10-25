@@ -58,11 +58,6 @@ app.get('/api/users', (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 });
 
-//Import routes
-let apiRoutes = require("./routes")
-//Use API routes in the App
-app.use('/api', apiRoutes)
-
 app.listen(port, function() {
   console.log(`Listening on port ${port}!`)
 });
