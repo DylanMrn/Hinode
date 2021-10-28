@@ -9,4 +9,8 @@ const userSchema = mongoose.Schema({
   role: { type: Number, required: true },
 }, { versionKey: false });
 
-module.exports = mongoose.model('Users', userSchema, "simple");
+var User = module.exports = mongoose.model('Users', userSchema, "users");
+
+module.exports.get = function (callback, limit) {
+   User.find(callback).limit(limit); 
+}

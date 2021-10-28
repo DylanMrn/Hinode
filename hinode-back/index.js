@@ -7,8 +7,11 @@ const bodyParser = require('body-parser');
 app.use('/media', express.static('public'));
 app.use(bodyParser.json());
 
+//MODELS
 const Users = require('./models/Users');
+const Artists = require('./models/Artists.js');
 
+// CONNECT BDD MONGOOSE
 mongoose.connect('mongodb://localhost:27017/test',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
@@ -23,18 +26,11 @@ app.use((req, res, next) => {
     next();
 });
 
-/*const users = new Users({
-    name: 'Tituouant',
-        pseudo: 'Titi',
-        password: 'password',
-        userId: '1',
-        role: '1',
-});
-users.save()
-.then(doc => console.log(doc))
-.catch(err => console.log('ERROR 💥:', err));
-*/
+//TEST ROUTES
+//let apiRoutes = require("./routes")
+//app.use('/api', apiRoutes)
 
+//USERS
 app.post('/api/newuser', (req, res, next) => {
     //delete req.body._id;
     const users = new Users({
@@ -58,6 +54,7 @@ app.get('/api/users', (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 });
 
+//LISTEN 
 app.listen(port, function() {
   console.log(`Listening on port ${port}!`)
 });
